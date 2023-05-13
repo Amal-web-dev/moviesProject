@@ -29,40 +29,51 @@ const movieDB = {
 };
 
 let pGenre = document.querySelector('.promo__genre')
-let btnChange = document.querySelector('#btn-change')
 let bg = document.querySelector('.promo__bg')
+let adsName = document.querySelector('.promo__title')
+let decr = document.querySelector('.promo__descr')
+let IMBD = document.querySelector('.IMBD')
+let kino = document.querySelector('.kino')
 let typeMovie = document.querySelectorAll('.promo__menu-item')
 let click = false
 
 function reload(arr, place) {
   place.innerHTML = "";
 
-  arr.movies.sort();
+  arr.sort((a, b) => a.Title.localeCompare(b.Title));
 
-  for (let i = 0; i < arr.movies.length; i++) {
-    const element = arr.movies[i];
-
+  for (const item of arr) {
     let p = document.createElement("li");
     let div = document.createElement("div");
-    let span = document.createElement("span");
 
     p.classList.add("promo__interactive-item");
     div.classList.add("delete");
-    span.classList.add("promo__interactive-item-num");
-    span.innerHTML = i + 1 + ". ";
-    p.innerHTML = span.innerHTML + element;
+    p.innerHTML = (arr.indexOf(item) + 1) + '. ' + item.Title;
+    p.style.cursor = 'pointer'
+
 
     place.append(p);
     p.append(div);
 
+    p.onclick = () => {
+      bg.style.backgroundImage = 'url(' + item.Poster + ')'
+      pGenre.innerHTML = item.Genre
+      adsName.innerHTML = item.Title 
+      decr.innerHTML = item.Plot
+      IMBD.innerHTML = 'IMBD: ' + item.imdbRating
+      kino.innerHTML = 'Кинопоиск: ' +  Math.round(Math.random() * 3 + 7)
+    }
+
     div.onclick = () => {
       p.remove();
     }
+    
+
   }
 }
 
 const listP = document.querySelector('.promo__interactive-list');
-reload(movieDB, listP);
+reload(movies, listP);
 
 
 typeMovie.forEach(movie => {
@@ -85,17 +96,17 @@ typeMovie.forEach(movie => {
 
 
 
-btnChange.onclick = () => {
-  if(click == false) {
-    pGenre.innerHTML = 'драма'
-    bg.style.backgroundImage = 'url(./img/bg.jpg)'
-    click = true
-  } else {
-    pGenre.innerHTML = 'комедия'
-    bg.style.backgroundImage = 'url(./img/mars.webp)'
-    click = false
-  }
-}
+// btnChange.onclick = () => {
+//   if(click == false) {
+//     pGenre.innerHTML = 'драма'
+//     bg.style.backgroundImage = 'url(./img/bg.jpg)'
+//     click = true
+//   } else {
+//     pGenre.innerHTML = 'комедия'
+//     bg.style.backgroundImage = 'url(./img/mars.webp)'
+//     click = false
+//   }
+// }
 
 let adv = document.querySelectorAll('#adv-logo')
 let close = document.querySelector('.icon-close')
